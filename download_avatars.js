@@ -42,11 +42,15 @@ getRepoContributors(avatarOwner, avatarRepoName, function (err, contributors) {
   if(err) {
     console.log("Errors:", err);
   } else {
-    contributors.forEach(function(contributor) {
-      //concatenating the file path out of the user loging and other relevant strings
-      var path = "avatars/" + contributor.login + ".jpg";
-      //calling function to download avatar, one user at a time
-      downloadImageByURL(contributor.avatar_url, path);
-    })
+      if(!avatarOwner && !avatarRepoName) {
+        console.log("Error: Please specify repo owner and repo name.")
+      } else {
+        contributors.forEach(function(contributor) {
+        //concatenating the file path out of the user loging and other relevant strings
+        var path = "avatars/" + contributor.login + ".jpg";
+        //calling function to download avatar, one user at a time
+        downloadImageByURL(contributor.avatar_url, path);
+        });
+      }
   }
 });
