@@ -47,6 +47,11 @@ getRepoContributors(avatarOwner, avatarRepoName, function (err, contributors) {
         console.log("Error: Please specify repo owner and repo name.");
       } else {
         contributors.forEach(function(contributor) {
+        var avdir = "avatars/";
+        if (!fs.existsSync(avdir)){
+          console.log("The directory '" + avdir + "' was created for you.");
+          fs.mkdirSync(avdir);
+        }
         //concatenating the file path out of the user loging and other relevant strings
         var path = "avatars/" + contributor.login + ".jpg";
         //calling function to download avatar, one user at a time
