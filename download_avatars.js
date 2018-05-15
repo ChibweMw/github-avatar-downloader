@@ -31,19 +31,20 @@ function downloadImageByURL(url, filePath) {
       console.log('error occured');
     }
   }).on('response', function(response) {
-    console.log('Downloading...');
-    console.log('Response status message:', response.statusMessage, response.headers['content-type']);
+    console.log('Response status message:', response.statusMessage, response.headers['content-type']); //seeing if server is open for request
+    console.log('Downloading...'); //download begins
   }).on('end', function() {
-    console.log('Download Complete!');
-  }).pipe(fs.createWriteStream(filePath))
+    console.log('Download Complete!'); //sends message once download is complete upon end of writable stream
+  }).pipe(fs.createWriteStream(filePath)); //downloads requested file to specified file path
 }
 
 getRepoContributors(avatarOwner, avatarRepoName, function (err, contributors) {
   if(err) {
+    //logs an error before running callback when necessary
     console.log("Errors:", err);
   } else {
       if(!avatarOwner && !avatarRepoName) {
-        console.log("Error: Please specify repo owner and repo name.")
+        console.log("Error: Please specify repo owner and repo name.");
       } else {
         contributors.forEach(function(contributor) {
         //concatenating the file path out of the user loging and other relevant strings
