@@ -44,9 +44,14 @@ getRepoContributors(avatarOwner, avatarRepoName, function (err, contributors) {
     //logs an error before running callback when necessary
     console.log("Errors:", err);
   } else {
+      if(process.argv.length > 4) {
+          console.log("please enter exactly 2 arguments.");
+          return;
+        }
       if(!avatarOwner && !avatarRepoName) {
         console.log("Error: Please specify repo owner and repo name.");
       } else {
+
         contributors.forEach(function(contributor) {
         var avdir = "avatars/";
         if (!fs.existsSync(avdir)){
