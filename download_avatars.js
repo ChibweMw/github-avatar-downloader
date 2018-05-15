@@ -13,14 +13,16 @@ function getRepoContributors(repoOwner, repoName, cb) {
     },
   };
 
-  request(options, function(err, res, body) {
-    var contributors = JSON.parse(body);
+  request(options, function(err, res, contributorList) {
+    //get the users and parse them into objects
+    var contributors = JSON.parse(contributorList);
+    //calling the callback of this function
     cb(err, contributors);
   });
 }
 
 function downloadImageByURL(url, filePath) {
-  //
+  //checking the given url
   request.get(url)
   .on('error', function(err) {
     if(err) {
@@ -34,20 +36,15 @@ function downloadImageByURL(url, filePath) {
   }).pipe(fs.createWriteStream(filePath))
 }
 
-// downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "avatars/kvirani.jpg");
-
-function testDownload(url, filePath) {
-  console.log(url);
-  console.log(filePath);
-}
-
 getRepoContributors("jquery", "jquery", function (err, contributors) {
   if(err) {
     console.log("Errors:", err);
   } else {
     contributors.forEach(function(contributor) {
+      //concatenating the file path out of the user loging and other relevant strings
       var path = "avatars/" + contributor.login + ".jpg";
-      testDownload(contributor.avatar_url, path);
+      //calling function to download avatar, one user at a time
+      downloadImageByURL(contributor.avatar_url, path);
     })
   }
 });
